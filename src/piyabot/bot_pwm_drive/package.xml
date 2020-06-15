@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>bot_pwm_drive</name>
+  <version>1.0.0</version>
+  <description>
+    Generate PWM signal for control left and right motor (Nvidia jetson nano)
+  </description>
+  <license>BSD</license>
+  <author>Piya Pimchankam</author>
+  <author email="piya.pimchankam@gmail.com">Piya Pimchankam</author>
+  <maintainer email="piya.pimchankam@gmail.com">Piya Pimchankam</maintainer>
+  <url type="website"></url>
+  <url type="emanual"></url>
+  <url type="repository">https://github.com/apiyap/piya_bot01_ws</url>
+  <url type="bugtracker">https://github.com/apiyap/piya_bot01_ws/issues</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>geometry_msgs</depend>
+</package>

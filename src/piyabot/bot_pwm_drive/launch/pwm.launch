@@ -1,0 +1,8 @@
+<launch>
+  <arg name="model" default="delta" doc="model type [delta, waffle, waffle_pi]"/>
+  <param name="model" value="$(arg model)"/>
+  <param name="motor_cmd_topic_name" value="/motor_cmd"/>
+
+  <node pkg="bot_pwm_drive" type="bot_pwm_drive" name="pwm_control"  output="screen">
+  </node>
+</launch>
