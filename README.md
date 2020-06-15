@@ -4,7 +4,7 @@
 <pre>
 roslaunch bot_description bot_rviz.launch
 </pre>
-![piya bot01 model](https://github.com/apiyap/piya_bot01_ws/images/piya_bot01_model.png)
+![piya bot01 model](images/piya_bot01_model.png)
 
 ## View robot model in gazebo
 The most of map models get from [Turtlebot3](https://github.com/ROBOTIS-GIT/turtlebot3)
@@ -13,7 +13,7 @@ The most of map models get from [Turtlebot3](https://github.com/ROBOTIS-GIT/turt
 roslaunch piyabot_gazebo house_rviz.launch
 </pre>
 
-![piya bot01 model](https://github.com/apiyap/piya_bot01_ws/images/piya_bot01_model_gazebo.png)
+![piya bot01 model](images/piya_bot01_model_gazebo.png)
 
 
 ## Install additional [ROS Control](http://wiki.ros.org/ros_control) package
