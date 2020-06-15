@@ -1,0 +1,324 @@
+<?xml version="1.0" ?>
+<robot name="piyabot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <xacro:property name="chassisHeight" value="0.25"/>
+  <xacro:property name="chassisLength" value="0.25"/>
+  <xacro:property name="chassisWidth" value="0.28"/>
+  <xacro:property name="chassisMass" value="1.0"/>
+
+  <xacro:property name="casterRadius" value="0.02"/>
+  <xacro:property name="casterMass" value="0.1"/>
+
+  <xacro:property name="wheelWidth" value="0.025"/>
+  <xacro:property name="wheelRadius" value="0.0325"/>
+  <xacro:property name="wheelPos" value="0"/>
+  <xacro:property name="wheelMass" value="0.2"/>
+
+  <xacro:property name="cameraHeight" value="0.04"/>
+  <xacro:property name="cameraLength" value="0.01"/>
+  <xacro:property name="cameraWidth" value="0.04"/>
+  <xacro:property name="cameraMass" value="0.1"/>
+
+  <xacro:property name="rplidarSize" value="0.06"/>
+  <xacro:property name="rplidarMass" value="0.2"/>
+
+  <xacro:property name="supportRplidarSize" value="0.1"/>
+  <xacro:property name="supportRplidarHeight" value="0.04"/>
+  <xacro:property name="supportRplidarMass" value="0.2"/>
+
+
+  <xacro:property name="sonarHeight" value="0.01"/>
+  <xacro:property name="sonarLength" value="0.01"/>
+  <xacro:property name="sonarWidth" value="0.04"/>
+  <xacro:property name="sonarMass" value="1e-5"/>
+
+
+  <xacro:include filename="$(find bot_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find bot_description)/urdf/macros.xacro"/>
+  <xacro:include filename="$(find bot_description)/urdf/piyabot_delta.gazebo.xacro"/>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="chassis"/>
+    <origin xyz="0 0 ${wheelRadius}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="chassis">
+    <collision>
+      <origin xyz="0 0 ${chassisHeight/2}" rpy="0 0 0"/>
+      <geometry>
+	      <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${chassisHeight/2}" rpy="0 0 0"/>
+      <geometry>
+	      <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${chassisHeight/2}" rpy="0 0 0"/>
+      <mass value="${chassisMass}"/>
+      <xacro:box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}"/>
+    </inertial>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="imu_link"/>
+
+
+
+  <joint name="fixed_caster_back" type="fixed">
+    <parent link="chassis"/>
+    <child link="caster_back_wheel"/>
+    <origin xyz="-${chassisLength/2 - casterRadius} 0 ${-wheelRadius + casterRadius}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="caster_back_wheel">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	      <sphere radius="${casterRadius}"/>
+      </geometry>
+    </collision>
+  
+    <visual> 
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	      <sphere radius="${casterRadius}"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${casterMass}"/>
+      <xacro:sphere_inertia m="${casterMass}" r="${casterRadius}"/>
+    </inertial>
+  </link>
+
+  <joint name="fixed_caster_front" type="fixed">
+    <parent link="chassis"/>
+    <child link="caster_front_wheel"/>
+    <origin xyz="${chassisLength/2 - casterRadius} 0 ${-wheelRadius + casterRadius}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="caster_front_wheel">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	      <sphere radius="${casterRadius}"/>
+      </geometry>
+    </collision>
+  
+    <visual> 
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	      <sphere radius="${casterRadius}"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${casterMass}"/>
+      <xacro:sphere_inertia m="${casterMass}" r="${casterRadius}"/>
+    </inertial>
+  </link>
+
+
+  <xacro:wheel lr="left" tY="-1"/>
+  <xacro:wheel lr="right" tY="1"/>
+
+
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="${chassisLength/2} 0 ${chassisHeight -cameraHeight/2 -0.02}" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="camera"/>
+  </joint>
+
+  <link name="camera">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	        <box size="${cameraLength} ${cameraWidth} ${cameraHeight}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	        <box size="${cameraLength} ${cameraWidth} ${cameraHeight}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="${cameraMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <xacro:box_inertia m="${cameraMass}" x="${cameraLength}" y="${cameraWidth}" z="${cameraHeight}" />
+    </inertial>
+  </link>
+
+
+  <joint name="rplidar_joint" type="fixed">
+    <origin xyz="0 0 ${chassisHeight + rplidarSize/4}" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="rplidar"/>
+  </joint>
+
+
+  <link name="rplidar">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	        <box size="${rplidarSize} ${rplidarSize} ${rplidarSize}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 ${PI}"/>
+      <geometry>
+	         <!--<box size="${rplidarSize} ${rplidarSize} ${rplidarSize}"/>-->
+          <mesh filename="package://bot_description/meshes/sensors/lds.stl" scale="0.001 0.001 0.001"/>
+          <!--<mesh filename="package://piyabot_description/meshes/sensors/rplidar_main.STL" scale="0.001 0.001 0.001"/>-->
+      </geometry>
+      <material name="brown"/>
+    </visual>
+
+    <inertial>
+      <mass value="${rplidarMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <xacro:box_inertia m="${rplidarMass}" x="${rplidarSize}" y="${rplidarSize}" z="${rplidarSize}" />
+    </inertial>
+  </link>
+
+
+  
+  <joint name="sonar_front_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="${chassisLength/2} 0 ${chassisHeight/2}" />
+      <parent link="chassis"/>
+      <child link="base_sonar_front"/>
+  </joint>
+
+  <link name="base_sonar_front">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>
+        </geometry>
+      </collision>
+      <visual>
+       <origin xyz="-0.01 -0.0225 -0.01" rpy="${PI/2} 0 ${PI/2}"/>
+        <geometry>
+           <!--<box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>-->
+          <mesh filename="package://bot_description/meshes/sensors/HC-SR04.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <xacro:box_inertia m="${sonarMass}" x="${sonarLength}" y="${sonarWidth}" z="${sonarHeight}"/>
+      </inertial>
+      
+  </link>
+
+
+   <joint name="sonar_back_joint" type="fixed">
+      <axis xyz="0 1 0" />
+      <origin rpy="0 0 ${PI}" xyz="-${chassisLength/2} 0 ${chassisHeight/2}" />
+      <parent link="chassis"/>
+      <child link="base_sonar_back"/>
+  </joint>
+  <link name="base_sonar_back">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="-0.01 -0.0225 -0.01" rpy="${PI/2} 0 ${PI/2}"/>
+        <geometry>
+          <!--<box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>-->
+          <mesh filename="package://bot_description/meshes/sensors/HC-SR04.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <xacro:box_inertia m="${sonarMass}" x="${sonarLength}" y="${sonarWidth}" z="${sonarHeight}"/>
+      </inertial>
+      
+  </link>
+
+  <joint name="sonar_left_joint" type="fixed">
+      <origin rpy="0 0 ${PI/2}" xyz="0 ${chassisWidth/2} ${chassisHeight/2}" />
+      <parent link="chassis"/>
+      <child link="base_sonar_left"/>
+  </joint>
+  <link name="base_sonar_left">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="-0.01 -0.0225 -0.01" rpy="${PI/2} 0 ${PI/2}"/>
+        <geometry>
+          <!--<box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>-->
+          <mesh filename="package://bot_description/meshes/sensors/HC-SR04.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <xacro:box_inertia m="${sonarMass}" x="${sonarLength}" y="${sonarWidth}" z="${sonarHeight}"/>
+      </inertial>
+      
+  </link>
+
+  <joint name="sonar_right_joint" type="fixed">
+      <origin rpy="0 0 -${PI/2}" xyz="0 -${chassisWidth/2} ${chassisHeight/2}" />
+      <parent link="chassis"/>
+      <child link="base_sonar_right"/>
+  </joint>
+  <link name="base_sonar_right">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="-0.01 -0.0225 -0.01" rpy="${PI/2} 0 ${PI/2}"/>
+        <geometry>
+          <!--<box size="${sonarLength} ${sonarWidth} ${sonarHeight}"/>-->
+          <mesh filename="package://bot_description/meshes/sensors/HC-SR04.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <xacro:box_inertia m="${sonarMass}" x="${sonarLength}" y="${sonarWidth}" z="${sonarHeight}"/>
+      </inertial>
+      
+  </link>
+
+
+</robot>

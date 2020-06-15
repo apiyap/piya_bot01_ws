@@ -1,0 +1,7 @@
+piyabot_model: "delta"
+wheel_left_joint_name: "left_wheel_hinge"
+wheel_right_joint_name: "right_wheel_hinge"
+joint_states_frame: "base_joint"
+odom_frame: "odom"
+base_frame: "base_footprint"
+imu_topic_name: "imu"

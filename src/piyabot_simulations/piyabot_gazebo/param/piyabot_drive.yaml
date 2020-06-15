@@ -1,0 +1,13 @@
+cmd_vel_topic_name: "/cmd_vel"
+scan_topic_name: "/scan"
+odom_topic_name: "/odom"
+bumper_topic_name: "/sensor/bumper_sensor"
+sonar_front_topic_name: "/sensor/sonar_front"
+sonar_back_topic_name: "/sensor/sonar_back"
+sonar_left_topic_name: "/sensor/sonar_left"
+sonar_right_topic_name: "/sensor/sonar_right"
+linear_vel: 0.8
+angular_vel: 1.5
+check_forward_dist: 1.0
+check_side_dist: 0.7
+escape_degree_range: 45.0

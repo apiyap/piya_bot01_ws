@@ -1,0 +1,5 @@
+<launch>
+  <arg name="name" default="piyabot"/>
+  <rosparam file="$(find piyabot_gazebo)/param/$(arg name)_drive.yaml" command="load" />
+  <node name="$(arg name)_drive" pkg="piyabot_gazebo" type="piyabot_drive" required="true" output="screen"/>
+</launch>

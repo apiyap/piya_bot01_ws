@@ -1,0 +1,26 @@
+<launch>
+  <arg name="multi_robot_name" default=""/>
+  <arg name="set_lidar_frame_id" default="base_scan"/>
+
+  <include file="$(find bot_bringup)/launch/bot_core.launch">
+    <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
+  </include>
+  <!--
+  <include file="$(find bot_bringup)/launch/bot_lidar.launch">
+    <arg name="set_frame_id" value="$(arg set_lidar_frame_id)"/>
+  </include>
+-->
+  <include file="$(find rtimulib_ros)/launch/rtimulib_ros.launch">
+  </include>
+
+  <include file="$(find bot_bringup)/launch/includes/description.launch.xml">
+  </include>
+
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" value="$(arg multi_robot_name)"/>
+  </node>
+
+  <node pkg="bot_bringup" type="bot_diagnostics" name="bot_diagnostics" output="screen"/>
+</launch>

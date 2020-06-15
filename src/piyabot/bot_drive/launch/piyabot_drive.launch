@@ -1,0 +1,33 @@
+<launch>
+  <arg name="model" default="delta" doc="model type [delta, ...]"/>
+  <arg name="multi_robot_name" default=""/>
+  <arg name="set_lidar_frame_id" default="base_scan"/>
+
+  <param name="piyabot_model" value="$(arg model)"/>
+
+
+  <include file="$(find bot_bringup)/launch/bot_core.launch">
+    <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
+  </include>
+  <!--
+  <include file="$(find bot_bringup)/launch/bot_lidar.launch">
+    <arg name="set_frame_id" value="$(arg set_lidar_frame_id)"/>
+  </include>
+-->
+  <include file="$(find rtimulib_ros)/launch/rtimulib_ros.launch">
+  </include>
+
+  <include file="$(find bot_bringup)/launch/includes/description.launch.xml">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <rosparam file="$(find bot_drive)/param/piyabot_drive.yaml" command="load" />
+  <node pkg="bot_drive" type="bot_drive_node" name="bot_drive_node" output="screen" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bot_drive)/rviz/piyabot_drive.rviz"/>
+
+</launch>

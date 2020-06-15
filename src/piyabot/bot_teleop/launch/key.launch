@@ -1,0 +1,10 @@
+<launch>
+  <arg name="model" default="delta" doc="model type [delta, waffle, waffle_pi]"/>
+  <param name="model" value="$(arg model)"/>
+  <param name="cmd_vel_topic_name" value="/cmd_vel"/>
+  
+
+  <!-- bot_teleop_key already has its own built in velocity smoother -->
+  <node pkg="bot_teleop" type="bot_teleop_key" name="bot_teleop_keyboard"  output="screen">
+  </node>
+</launch>

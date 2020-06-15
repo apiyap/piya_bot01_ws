@@ -1,0 +1,6 @@
+devel_space: /home/piya/workspace/bot03_ws/src/piyabot/bot_bringup/devel
+install: false
+install_space: /home/piya/workspace/bot03_ws/src/piyabot/bot_bringup/install
+profile: default
+source_space: /home/piya/workspace/bot03_ws/src/piyabot/bot_bringup/src
+workspace: /home/piya/workspace/bot03_ws/src/piyabot/bot_bringup
