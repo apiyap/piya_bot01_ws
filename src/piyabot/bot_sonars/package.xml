@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>bot_pwm_drive</name>
+  <name>bot_sonars</name>
   <version>1.0.0</version>
   <description>
-    Generate PWM signal for control left and right motor (Nvidia jetson nano)
+    Sonar sensor (HC-SR04) x 4  (Nvidia jetson nano)
   </description>
   <license>BSD</license>
   <author>Piya Pimchankam</author>
@@ -15,6 +15,6 @@
   <url type="bugtracker">https://github.com/apiyap/piya_bot01_ws/issues</url>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>rospy</depend>
-  <depend>geometry_msgs</depend>
-  <depend>piyabot_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>Piya.Sonar</depend>
 </package>

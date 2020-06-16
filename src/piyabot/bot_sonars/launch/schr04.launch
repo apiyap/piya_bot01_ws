@@ -1,0 +1,8 @@
+<launch>
+  <arg name="model" default="delta" doc="model type [delta, waffle, waffle_pi]"/>
+  <param name="model" value="$(arg model)"/>
+  <param name="sensor_topic_name" value="/sensors"/>
+
+  <node pkg="bot_sonars" type="bot_sonars" name="sonar_sensors"  output="screen">
+  </node>
+</launch>

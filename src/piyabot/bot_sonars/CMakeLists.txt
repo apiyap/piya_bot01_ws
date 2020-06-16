@@ -2,15 +2,14 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 2.8.3)
-project(bot_pwm_drive)
+project(bot_sonars)
 
 ################################################################################
 # Find catkin packages and libraries for catkin and system dependencies
 ################################################################################
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  geometry_msgs
-  piyabot_msgs
+  sensor_msgs
 )
 
 ################################################################################
@@ -30,7 +29,7 @@ catkin_python_setup()
 # Declare catkin specific configuration to be passed to dependent projects
 ################################################################################
 catkin_package(
-  CATKIN_DEPENDS rospy geometry_msgs piyabot_msgs
+  CATKIN_DEPENDS rospy sensor_msgs
 )
 
 ################################################################################
@@ -41,7 +40,7 @@ catkin_package(
 # Install
 ################################################################################
 catkin_install_python(PROGRAMS
-  nodes/bot_pwm_drive
+  nodes/bot_sonars
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

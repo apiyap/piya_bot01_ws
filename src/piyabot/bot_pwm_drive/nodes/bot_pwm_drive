@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2020 , piya.pimchankam@gmail.com
 # All rights reserved.
@@ -30,7 +30,7 @@
 import rospy
 from geometry_msgs.msg import Twist
 from piyabot_msgs.msg import MotorCommand
-import RPi.GPIO as GPIO
+import RPi.Jetson as GPIO
 import time
 
 LEFT_PWM_PIN = 33
@@ -78,7 +78,7 @@ class PwmControl(object):
 
 def listener():
 
-    rospy.init_node('listener', anonymous=True)
+    rospy.init_node('pwm_control', anonymous=True)
 
     motor_cmd_topic_name = rospy.get_param("motor_cmd_topic_name", "/motor_cmd")
 
