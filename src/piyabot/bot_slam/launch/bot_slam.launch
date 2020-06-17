@@ -12,8 +12,7 @@
 -->
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find bot_description)/urdf/piyabot_delta.urdf.xacro" />
-  <!-- ros_control mybot launch file -->
-  <include file="$(find bot_control)/launch/bot_control.launch" /> 
+
 
   <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
   <include file="$(find bot_slam)/launch/bot_$(arg slam_methods).launch">
