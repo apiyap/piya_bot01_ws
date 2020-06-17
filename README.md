@@ -25,6 +25,9 @@ cd ~/catkin_ws/src
 git clone https://github.com/ros-controls/urdf_geometry_parser.git
 git clone https://github.com/ros-drivers/four_wheel_steering_msgs.git
 git clone https://github.com/ros-controls/ros_controllers.git
+git clone https://github.com/ros-perception/openslam_gmapping.git
+git clone https://github.com/ros-perception/slam_gmapping.git
+
 cd ~/catkin_ws
 catkin_make
 catkin_make --install
@@ -43,3 +46,9 @@ catkin_make
 source devel_isolated/setup.sh
 roslaunch rplidar_ros view_rplidar.launch
 </pre>
+
+## Gmapping test
+<pre>
+roslaunch bot_bringup jetson_slam.launch
+</pre>
+![gmapping](images/gmapping-test.png)
