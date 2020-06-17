@@ -174,11 +174,11 @@
   <joint name="rplidar_joint" type="fixed">
     <origin xyz="0 0 ${chassisHeight + rplidarSize/4}" rpy="0 0 0"/>
     <parent link="chassis"/>
-    <child link="rplidar"/>
+    <child link="laser"/>
   </joint>
 
 
-  <link name="rplidar">
+  <link name="laser">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>

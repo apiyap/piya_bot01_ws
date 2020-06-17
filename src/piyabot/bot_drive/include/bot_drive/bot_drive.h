@@ -39,7 +39,7 @@
 // #define MAX_LINEAR_VELOCITY             0.22   // m/s
 // #define MAX_ANGULAR_VELOCITY            2.84   // rad/s
 
-#define MAX_SPEED_STEP_VALUE                10000
+#define MAX_SPEED_VALUE                100
 
 
 class PiyaBotDrive

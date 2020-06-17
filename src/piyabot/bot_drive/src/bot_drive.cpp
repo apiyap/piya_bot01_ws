@@ -251,8 +251,8 @@ bool PiyaBotDrive::update()
 
 // motor command
   motor_cmd_.mode = piyabot_msgs::MotorCommand::SPEED;
-  motor_cmd_.left_motor = (int)(wheel_speed_cmd_[LEFT] * MAX_SPEED_STEP_VALUE);
-  motor_cmd_.right_motor = (int)(-wheel_speed_cmd_[RIGHT] * MAX_SPEED_STEP_VALUE);
+  motor_cmd_.left_motor = (int)(wheel_speed_cmd_[LEFT] * MAX_SPEED_VALUE);
+  motor_cmd_.right_motor = (int)(-wheel_speed_cmd_[RIGHT] * MAX_SPEED_VALUE);
   motor_cmd_pub_.publish(motor_cmd_);
 
 
@@ -279,7 +279,7 @@ bool PiyaBotDrive::update()
 *******************************************************************************/
 int main(int argc, char* argv[])
 {
-  ros::init(argc, argv, "piyabot_stepper_drive_node");
+  ros::init(argc, argv, "piyabot_drive_node");
 
   PiyaBotDrive bot_drive;
 

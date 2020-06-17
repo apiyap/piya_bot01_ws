@@ -1,15 +1,14 @@
 <launch>
   <arg name="model" default="delta" doc="model type [delta, ...]"/>
   <arg name="multi_robot_name" default=""/>
-  <arg name="set_lidar_frame_id" default="base_scan"/>
 
   <param name="piyabot_model" value="$(arg model)"/>
 
-
+<!--
   <include file="$(find bot_bringup)/launch/bot_core.launch">
     <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
   </include>
-  <!--
+  
   <include file="$(find bot_bringup)/launch/bot_lidar.launch">
     <arg name="set_frame_id" value="$(arg set_lidar_frame_id)"/>
   </include>

@@ -29,34 +29,56 @@
 
 import rospy
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Bool
 from piyabot_msgs.msg import MotorCommand
-import RPi.Jetson as GPIO
+import Jetson.GPIO as GPIO
 import time
 
 LEFT_PWM_PIN = 33
 RIGHT_PWM_PIN = 32
 
+LEFT_DIR_PIN = 31
+RIGHT_DIR_PIN = 29
+
+MOTOR_POWER_EN_PIN = 22
+
 class PwmControl(object):
-    def __init__(self, left_pwm_pin = 33, right_pwm_pin = 32, motor_cmd_topic_name="motor_cmd"):
+    def __init__(self, left_pwm_pin = 33, right_pwm_pin = 32, motor_cmd_topic_name="motor_cmd", motor_power_topic_name="motor_power"):
         # Pin Setup:
         # Board pin-numbering scheme
         GPIO.setmode(GPIO.BOARD)
 
+        self._left_dir_pin = LEFT_DIR_PIN
+        self._right_dir_pin = RIGHT_DIR_PIN
+        self._power_en_pin = MOTOR_POWER_EN_PIN
+
         # set pin as an output pin with optional initial state of HIGH
+        GPIO.setup(self._left_dir_pin, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(self._right_dir_pin, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(self._power_en_pin, GPIO.OUT, initial=GPIO.LOW)
+
+
         GPIO.setup(left_pwm_pin, GPIO.OUT, initial=GPIO.HIGH)
         self._left_pwm = GPIO.PWM(left_pwm_pin, 50)
         GPIO.setup(right_pwm_pin, GPIO.OUT, initial=GPIO.HIGH)
         self._right_pwm = GPIO.PWM(right_pwm_pin, 50)
         self._left_pwm.start(0)
         self._right_pwm.start(0)
+        self._last_left_pwm = 0
+        self._last_right_pwm = 0
+        self._last_left_dir = False
+        self._last_right_dir = False
 
         self._sub = rospy.Subscriber(motor_cmd_topic_name, MotorCommand, self._cmd_vel_callback ) 
-
+        self._power_sub = rospy.Subscriber(motor_power_topic_name, Bool, self._power_callback ) 
 
 
     def set_pwm(self, left_val, right_val):
         self._left_pwm.start(left_val)
         self._right_pwm.start(right_val)
+
+    def _power_callback(self, cmd):
+        GPIO.output(self._power_en_pin, cmd.data)
 
     def _cmd_vel_callback(self, cmd):
 
@@ -65,8 +87,46 @@ class PwmControl(object):
         if cmd.right_motor > 100 :
             cmd.right_motor = 100
 
-        self._left_pwm.start(cmd.left_motor)
-        self._right_pwm.start(cmd.right_motor)
+        if cmd.left_motor != self._last_left_pwm :
+            self._last_left_pwm = cmd.left_motor
+            rospy.loginfo("PWM Left:{}".format(self._last_left_pwm))
+            left_dir = False
+            lef_pwm = self._last_left_pwm
+            if self._last_left_pwm < 0:
+                left_dir = True
+                lef_pwm = abs(self._last_left_pwm)
+
+            if left_dir != self._last_left_dir :
+                self._last_left_dir = left_dir
+                self._left_pwm.ChangeDutyCycle(0)
+                time.sleep(0.01)     #10 msec
+                GPIO.output(self._left_dir_pin, left_dir)
+                time.sleep(0.01)     #10 msec
+
+            self._left_pwm.ChangeDutyCycle(lef_pwm)
+            
+
+        if cmd.right_motor != self._last_right_pwm :
+            self._last_right_pwm = cmd.right_motor
+            rospy.loginfo("PWM Right:{}".format(self._last_right_pwm))
+            right_dir = False
+            right_pwm = self._last_right_pwm
+
+            if self._last_right_pwm  < 0 :
+                right_dir = True
+                right_pwm = abs(self._last_right_pwm)
+
+            if right_dir != self._last_right_dir :
+                self._last_right_dir = right_dir
+                self._right_pwm.ChangeDutyCycle(0)
+                time.sleep(0.01)     #10 msec
+                GPIO.output(self._right_dir_pin, right_dir)
+                time.sleep(0.01)     #10 msec
+
+            self._right_pwm.ChangeDutyCycle(right_pwm)
+            
+        
+
 
 
     def close(self):
