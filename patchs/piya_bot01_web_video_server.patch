@@ -1,0 +1,71 @@
+diff --git a/include/web_video_server/image_streamer.h b/include/web_video_server/image_streamer.h
+index b5caba2..3d63fba 100644
+--- a/include/web_video_server/image_streamer.h
++++ b/include/web_video_server/image_streamer.h
+@@ -4,6 +4,9 @@
+ #include <ros/ros.h>
+ #include <image_transport/image_transport.h>
+ #include <opencv2/opencv.hpp>
++#if CV_MAJOR_VERSION > 3
++#include <opencv2/imgcodecs.hpp>
++#endif
+ #include "async_web_server_cpp/http_server.hpp"
+ #include "async_web_server_cpp/http_request.hpp"
+ 
+diff --git a/src/jpeg_streamers.cpp b/src/jpeg_streamers.cpp
+index 121730d..97789f7 100644
+--- a/src/jpeg_streamers.cpp
++++ b/src/jpeg_streamers.cpp
+@@ -21,7 +21,11 @@ MjpegStreamer::~MjpegStreamer()
+ void MjpegStreamer::sendImage(const cv::Mat &img, const ros::Time &time)
+ {
+   std::vector<int> encode_params;
++#if CV_MAJOR_VERSION > 3
++  encode_params.push_back(cv::IMWRITE_JPEG_QUALITY);
++#else
+   encode_params.push_back(CV_IMWRITE_JPEG_QUALITY);
++#endif
+   encode_params.push_back(quality_);
+ 
+   std::vector<uchar> encoded_buffer;
+@@ -63,7 +67,11 @@ JpegSnapshotStreamer::~JpegSnapshotStreamer()
+ void JpegSnapshotStreamer::sendImage(const cv::Mat &img, const ros::Time &time)
+ {
+   std::vector<int> encode_params;
++  #if CV_MAJOR_VERSION > 3
++  encode_params.push_back(cv::IMWRITE_JPEG_QUALITY);
++  #else
+   encode_params.push_back(CV_IMWRITE_JPEG_QUALITY);
++  #endif
+   encode_params.push_back(quality_);
+ 
+   std::vector<uchar> encoded_buffer;
+diff --git a/src/png_streamers.cpp b/src/png_streamers.cpp
+index 629adf0..5e39419 100644
+--- a/src/png_streamers.cpp
++++ b/src/png_streamers.cpp
+@@ -21,7 +21,12 @@ PngStreamer::~PngStreamer()
+ void PngStreamer::sendImage(const cv::Mat &img, const ros::Time &time)
+ {
+   std::vector<int> encode_params;
++  #if CV_MAJOR_VERSION > 3
++  encode_params.push_back(cv::IMWRITE_PNG_COMPRESSION);
++  #else
+   encode_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
++  #endif
++
+   encode_params.push_back(quality_);
+ 
+   std::vector<uchar> encoded_buffer;
+@@ -63,7 +68,11 @@ PngSnapshotStreamer::~PngSnapshotStreamer()
+ void PngSnapshotStreamer::sendImage(const cv::Mat &img, const ros::Time &time)
+ {
+   std::vector<int> encode_params;
++  #if CV_MAJOR_VERSION > 3
++  encode_params.push_back(cv::IMWRITE_PNG_COMPRESSION);
++  #else
+   encode_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
++  #endif
+   encode_params.push_back(quality_);
+ 
+   std::vector<uchar> encoded_buffer;
