@@ -27,6 +27,8 @@ git clone https://github.com/ros-drivers/four_wheel_steering_msgs.git
 git clone https://github.com/ros-controls/ros_controllers.git
 git clone https://github.com/ros-perception/openslam_gmapping.git
 git clone https://github.com/ros-perception/slam_gmapping.git
+git clone https://github.com/ros/geometry2.git
+
 
 cd ~/catkin_ws
 catkin_make
@@ -52,3 +54,22 @@ roslaunch rplidar_ros view_rplidar.launch
 roslaunch bot_bringup jetson_slam.launch
 </pre>
 ![gmapping](images/gmapping-test.png)
+
+## Install rosbridge_suite
+<pre>
+sudo apt install -y python3-openssl python3-bson
+pip3 install --user autobahn twisted
+cd ~/catkin_ws/src
+git clone https://github.com/GT-RAIL/rosauth.git
+git clone https://github.com/RobotWebTools/rosbridge_suite.git
+git clone https://github.com/RobotWebTools/tf2_web_republisher.git
+git clone https://github.com/RobotWebTools/robot_web_tools.git
+git clone https://github.com/RobotWebTools/web_video_server.git
+git clone https://github.com/RobotWebTools/depthcloud_encoder.git
+git clone https://github.com/GT-RAIL/async_web_server_cpp.git
+
+cd ~/catkin_ws
+catkin_make
+catkin_make --install
+rsync -r --ignore-existing --include=* install_isolated/ ~/ros_catkin_ws/install_isolated/
+</pre>

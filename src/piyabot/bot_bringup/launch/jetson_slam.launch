@@ -14,8 +14,9 @@
   <rosparam file="$(find bot_drive)/param/piyabot_drive.yaml" command="load" />
   <node pkg="bot_drive" type="bot_drive_node" name="bot_drive_node" output="screen" />
 
+  <include file="$(find robot_web_tools)/launch/servers_with_tf.launch"/>
 
-  
+
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
     <param name="use_gui" value="False"/>
   </node>
