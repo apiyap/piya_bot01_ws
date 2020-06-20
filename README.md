@@ -28,7 +28,7 @@ git clone https://github.com/ros-controls/ros_controllers.git
 git clone https://github.com/ros-perception/openslam_gmapping.git
 git clone https://github.com/ros-perception/slam_gmapping.git
 git clone https://github.com/ros/geometry2.git
-
+git clone https://github.com/ros-planning/navigation.git
 
 cd ~/catkin_ws
 catkin_make
