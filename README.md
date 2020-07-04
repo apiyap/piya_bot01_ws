@@ -66,9 +66,10 @@ git clone https://github.com/GT-RAIL/rosauth.git
 git clone https://github.com/RobotWebTools/rosbridge_suite.git
 git clone https://github.com/RobotWebTools/tf2_web_republisher.git
 git clone https://github.com/RobotWebTools/robot_web_tools.git
-git clone https://github.com/RobotWebTools/web_video_server.git
+#git clone https://github.com/RobotWebTools/web_video_server.git
 git clone https://github.com/RobotWebTools/depthcloud_encoder.git
 git clone https://github.com/GT-RAIL/async_web_server_cpp.git
+git clone https://github.com/osrf/rvizweb/
 
 cd ~/catkin_ws
 catkin_make
