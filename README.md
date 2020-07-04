@@ -58,6 +58,8 @@ roslaunch bot_bringup jetson_slam.launch
 ## Install rosbridge_suite
 <pre>
 sudo apt install -y python3-openssl python3-bson
+sudo apt install -y ros-melodic-dwa-local-planner
+
 pip3 install --user autobahn twisted
 cd ~/catkin_ws/src
 git clone https://github.com/GT-RAIL/rosauth.git
